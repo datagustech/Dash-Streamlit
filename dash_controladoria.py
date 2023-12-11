@@ -93,16 +93,19 @@ if add_selectbox == 'Últimos 5 meses':
         # ===============================================================================================================================
 
         df_sem_duplicatas = df.drop_duplicates(subset='ID Nota Fiscal', keep='first')
-        # Calcular a média dos valores agrupados por 'UF do Cliente'
-        media_valores = df_sem_duplicatas.groupby('UF do Cliente')['Valor da Nota'].mean().reset_index()
-        fig5 = px.bar(media_valores, x='UF do Cliente', y='Valor da Nota',
-                      title='Comparação da Média de Valores das Notas por UF do Cliente',
-                      labels={'Valor da Nota': 'Média de Valor', 'UF do Cliente': 'UF do Cliente'},
-                      category_orders={'UF do Cliente': media_valores.sort_values('Valor da Nota', ascending=False)[
-                          'UF do Cliente']})
-
-        # Mostrar o gráfico interativo
+        faturamento_total = df_sem_duplicatas.groupby('Cliente')['Valor da Nota'].sum().reset_index()
+        # Calcular a participação em porcentagem de cada cliente no faturamento total
+        faturamento_total['Participacao'] = faturamento_total['Valor da Nota'] / faturamento_total['Valor da Nota'].sum() * 100
+        # Criar um gráfico de pizza interativo com Plotly Express
+        fig5 = px.pie(faturamento_total, names='Cliente', values='Valor da Nota', 
+                    title='Participação dos Clientes no Faturamento Total',
+                    hover_name='Cliente', hover_data=['Valor da Nota'],
+                    labels={'Valor da Nota': 'Faturamento'})
+        # Adicionar rótulo de porcentagem na parte externa do gráfico
+        fig5.update_traces(textposition='inside', textinfo='percent+label')
+        # Exibir o gráfico
         col61.plotly_chart(fig5, use_container_width=False)
+        
 
 
         # df_sem_duplicatas = df.drop_duplicates(subset='ID Nota Fiscal', keep='first')
