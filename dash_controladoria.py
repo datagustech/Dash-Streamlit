@@ -37,7 +37,7 @@ if add_selectbox == 'Últimos 5 meses':
         fat_mes = df_sem_duplicatas['Valor da Nota'].sum()
 
         # Formatação do valor usando a formatação de moeda
-        fat_mes_formatado = "R${:,.2f}".format(fat_mes)
+        fat_mes_formatado = "R${:.,.2f}".format(fat_mes)
 
         col11.markdown(f'<p style="font-size:30px; text-align:center; margin-top:120px; font-family:sans-serif; font-weight:bold; border:8px solid #ccc; border-radius:10px; padding:80px;">Faturamento: {fat_mes_formatado}</p>', unsafe_allow_html=True)
         
