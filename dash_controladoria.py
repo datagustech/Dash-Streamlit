@@ -2,23 +2,19 @@ import pandas as pd
 import plotly.express as px
 import time
 import streamlit as st
-import locale
 
 df = pd.read_csv('dados_notas.csv', sep=',', decimal=',')
 df['Data de Emissão'] = pd.to_datetime(df['Data de Emissão'])
 df = df.sort_values('Data de Emissão')
-try:
-    locale.setlocale(locale.LC_ALL, 'pt_BR.utf-8')
-except locale.Error as e:
-    print(f"Erro ao definir a localização: {e}")
+
 # Definindo configurações da página
 st.set_page_config(
     page_title="Dashboard Controladoria - Chappa",
     page_icon='logo_chappa.png',
     layout='wide',
     initial_sidebar_state='expanded')
-# Configurando o estilo dos gráficos
 
+# Configurando o estilo dos gráficos
 with st.sidebar:
     st.image('logo_chappa_maior.png', use_column_width='PNG')
     with st.spinner("Carregando..."):
@@ -37,8 +33,9 @@ if add_selectbox == 'Últimos 5 meses':
         df_sem_duplicatas = df.drop_duplicates(subset='ID Nota Fiscal', keep='first')
         fat_mes = df_sem_duplicatas['Valor da Nota'].sum()
 
-        # Formatação do valor usando a formatação de moeda
-        fat_mes_formatado = locale.currency(fat_mes, grouping=True)
+        # Formatação do valor usando a lógica de formatação de moeda
+        fat_mes_formatado = "R${:.2f}".format(fat_mes)
+        fat_mes_formatado = fat_mes_formatado.replace('.', ',')
 
         col11.markdown(
             f'<p style="font-size:30px; text-align:center; margin-top:120px; font-family:sans-serif; font-weight:bold; border:8px solid #ccc; border-radius:10px; padding:80px;">Faturamento: {fat_mes_formatado}</p>',
@@ -96,19 +93,17 @@ if add_selectbox == 'Últimos 5 meses':
         # ===============================================================================================================================
 
         df_sem_duplicatas = df.drop_duplicates(subset='ID Nota Fiscal', keep='first')
-        faturamento_total = df_sem_duplicatas.groupby('Cliente')['Valor da Nota'].sum().reset_index()
-        # Calcular a participação em porcentagem de cada cliente no faturamento total
-        faturamento_total['Participacao'] = faturamento_total['Valor da Nota'] / faturamento_total[
-            'Valor da Nota'].sum() * 100
-        # Criar um gráfico de pizza interativo com Plotly Express
-        fig5 = px.pie(faturamento_total, names='Cliente', values='Valor da Nota',
-                      title='Participação dos Clientes no Faturamento Total',
-                      hover_name='Cliente', hover_data=['Valor da Nota'],
-                      labels={'Valor da Nota': 'Faturamento'})
-        # Adicionar rótulo de porcentagem na parte externa do gráfico
-        fig5.update_traces(textposition='inside', textinfo='percent+label')
-        # Exibir o gráfico
+        # Calcular a média dos valores agrupados por 'UF do Cliente'
+        media_valores = df_sem_duplicatas.groupby('UF do Cliente')['Valor da Nota'].mean().reset_index()
+        fig5 = px.bar(media_valores, x='UF do Cliente', y='Valor da Nota',
+                      title='Comparação da Média de Valores das Notas por UF do Cliente',
+                      labels={'Valor da Nota': 'Média de Valor', 'UF do Cliente': 'UF do Cliente'},
+                      category_orders={'UF do Cliente': media_valores.sort_values('Valor da Nota', ascending=False)[
+                          'UF do Cliente']})
+
+        # Mostrar o gráfico interativo
         col61.plotly_chart(fig5, use_container_width=False)
+
 
         # df_sem_duplicatas = df.drop_duplicates(subset='ID Nota Fiscal', keep='first')
         # fat_mes = df_sem_duplicatas['Valor da Nota'].sum()
