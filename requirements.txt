@@ -1,2 +1,2 @@
 plotly
-locale='pt_BR.UTF-8'
+locale
