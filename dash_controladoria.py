@@ -7,7 +7,7 @@ import locale
 df = pd.read_csv('dados_notas.csv', sep=',', decimal=',')
 df['Data de Emissão'] = pd.to_datetime(df['Data de Emissão'])
 df = df.sort_values('Data de Emissão')
-locale.setlocale(locale.LC_ALL, 'pt_BR.UTF8')
+locale.setlocale(locale.LC_ALL, 'pt_BR')
 # Definindo configurações da página
 st.set_page_config(
     page_title="Dashboard Controladoria - Chappa",
