@@ -1,1 +1,1 @@
-plotly.express as px
+pip install plotly
