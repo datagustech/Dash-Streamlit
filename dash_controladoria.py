@@ -14,6 +14,20 @@ st.set_page_config(
     page_icon='logo_chappa.png',
     layout='wide',
     initial_sidebar_state='expanded')
+st.markdown(
+    """
+        <style>
+            body {
+                color: white;
+                background-color: #1E1E1E;
+            }
+            .st-dg .st-cg .st-ch .st-ci .st-cj .st-cm .st-cn {
+                color: white;
+            }
+        </style>
+    """,
+    unsafe_allow_html=True
+)
 
 with st.sidebar:
     st.image('logo_chappa_maior.png', use_column_width='PNG')
