@@ -10,12 +10,12 @@ df_importation = pd.read_csv('dados_notas.csv', sep=',', decimal=',', encoding='
 df_usable = df_importation
 
 situacao = ['Substituida', 'Cancelada', 'Canceladas']
-df_usable.drop(df_usable[df_usable['Situação'].isin(situacao)].index, inplace=True)
-if 'Situação' in df_importation.columns:
+df_usable.drop(df_usable[df_usable['Situacao'].isin(situacao)].index, inplace=True)
+if 'Situacao' in df_importation.columns:
     situacao = ['Substituida', 'Cancelada', 'Canceladas']
-    df_importation.drop(df_importation[df_importation['Situação'].isin(situacao)].index, inplace=True)
+    df_importation.drop(df_importation[df_importation['Situacao'].isin(situacao)].index, inplace=True)
 else:
-    st.warning("A coluna 'Situação' não foi encontrada no DataFrame.")
+    st.warning("A coluna 'Situacao' não foi encontrada no DataFrame.")
 
 prestadores_excluir = ['OFFICIUM COWORKING E SERVICOS DE ESCRITORIO LTDA', 'ATTENZA CONSULTORIA CONTABIL LTDA']
 df_usable.drop(df_usable[df_usable['Prestador'].isin(prestadores_excluir)].index, inplace=True)
