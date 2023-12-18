@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 import time
 import streamlit as st  
 
-df_importation = pd.read_csv('dados_notas.csv', sep=',', decimal=',')
+df_importation = pd.read_csv('dados_notas.csv', sep=',', decimal=',', encoding='utf-8')
 
 df_usable = df_importation
 
