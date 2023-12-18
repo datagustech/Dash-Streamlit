@@ -11,6 +11,11 @@ df_usable = df_importation
 
 situacao = ['Substituida', 'Cancelada', 'Canceladas']
 df_usable.drop(df_usable[df_usable['Situação'].isin(situacao)].index, inplace=True)
+if 'Situação' in df_importation.columns:
+    situacao = ['Substituida', 'Cancelada', 'Canceladas']
+    df_importation.drop(df_importation[df_importation['Situação'].isin(situacao)].index, inplace=True)
+else:
+    st.warning("A coluna 'Situação' não foi encontrada no DataFrame.")
 
 prestadores_excluir = ['OFFICIUM COWORKING E SERVICOS DE ESCRITORIO LTDA', 'ATTENZA CONSULTORIA CONTABIL LTDA']
 df_usable.drop(df_usable[df_usable['Prestador'].isin(prestadores_excluir)].index, inplace=True)
