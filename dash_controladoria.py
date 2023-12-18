@@ -565,7 +565,7 @@ if add_selectbox == 'Crescimento Clientes':
             y=df_faturamento_mensal['Valor da Nota'],
             mode='lines',
             line=dict(color='gray', width=3),
-            name='Linha Tropica'
+            name='Linearidade'
         )
 
         fig.add_trace(linha_tropica)
