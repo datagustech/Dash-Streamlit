@@ -28,8 +28,8 @@ df_usable['Cliente'] = df_usable['Cliente'].replace({
     'TRANSPORTES LUFT LTDA': 'TRANSPORTES LUFT LTDA'
 })
 
-df_usable['Data de Emissão'] = pd.to_datetime(df_usable['Data de Emissão'], format='%d/%m/%Y')
-df_usable['Mes_ano'] = df_usable['Data de Emissão'].dt.to_period('M')
+df_usable['Data de Emissao'] = pd.to_datetime(df_usable['Data de Emissao'], format='%d/%m/%Y')
+df_usable['Mes_ano'] = df_usable['Data de Emissao'].dt.to_period('M')
 
 
 #Definindo configurações da página
@@ -116,16 +116,16 @@ if add_selectbox == 'Últimos 5 meses':
 
 # ======================================================================    
    
-        df_usable['Data de Emissão'] = df_usable['Data de Emissão'].dt.strftime('%m')
+        df_usable['Data de Emissao'] = df_usable['Data de Emissao'].dt.strftime('%m')
         meses_ordenados = ['07', '08', '09', '10', '11']  # Defina a ordem desejada
-        df_usable['Data de Emissão'] = pd.Categorical(df_usable['Data de Emissão'], categories=meses_ordenados, ordered=True)
-        count_by_month = df_usable.groupby('Data de Emissão')['ID Nota Fiscal'].count().reset_index()
+        df_usable['Data de Emissao'] = pd.Categorical(df_usable['Data de Emissao'], categories=meses_ordenados, ordered=True)
+        count_by_month = df_usable.groupby('Data de Emissao')['ID Nota Fiscal'].count().reset_index()
 
         # Criar o gráfico de linha com chuveirinho
-        fig2 = px.line(count_by_month, x='Data de Emissão', y='ID Nota Fiscal', title='Distribuição de Notas Fiscais ao Longo do Tempo',
-                    labels={'ID Nota Fiscal': 'Quantidade de Notas Fiscais', 'Data de Emissão': 'Mês'},
+        fig2 = px.line(count_by_month, x='Data de Emissao', y='ID Nota Fiscal', title='Distribuição de Notas Fiscais ao Longo do Tempo',
+                    labels={'ID Nota Fiscal': 'Quantidade de Notas Fiscais', 'Data de Emissao': 'Mês'},
                     markers=True, line_shape='linear', template='plotly_dark', # Adicionei template para um layout escuro
-                    hover_name='ID Nota Fiscal', hover_data={'Data de Emissão': False, 'ID Nota Fiscal': True}) # Adicionei hover data para exibir informações
+                    hover_name='ID Nota Fiscal', hover_data={'Data de Emissao': False, 'ID Nota Fiscal': True}) # Adicionei hover data para exibir informações
         
         # Configurar chuveirinho (área sombreada)
         fig2.update_traces(fill='tozeroy', fillcolor='rgba(95,158,160,0.6)', line=dict(color='rgba(128,128,128,1.0)'))
@@ -202,8 +202,8 @@ if add_selectbox == 'Julho':
         
 # =============================================================
 
-        df_usable_julho['Data de Emissão'] = pd.to_datetime(df_usable_julho['Data de Emissão'], format='%d/%m/%Y')
-        df_usable_julho['Dia do Mês'] = df_usable_julho['Data de Emissão'].dt.day
+        df_usable_julho['Data de Emissao'] = pd.to_datetime(df_usable_julho['Data de Emissao'], format='%d/%m/%Y')
+        df_usable_julho['Dia do Mês'] = df_usable_julho['Data de Emissao'].dt.day
         count_by_day = df_usable_julho.groupby('Dia do Mês')['ID Nota Fiscal'].count().reset_index()
         fig = px.line(count_by_day, x='Dia do Mês', y='ID Nota Fiscal', title='Quantidade de Notas Fiscais por Dia em Julho',
                     labels={'ID Nota Fiscal': 'Quantidade de Notas Fiscais', 'Dia do Mês': 'Dia do Mês'},
@@ -274,8 +274,8 @@ if add_selectbox == 'Agosto':
         
 # =============================================================
 
-        df_usable_agosto['Data de Emissão'] = pd.to_datetime(df_usable_agosto['Data de Emissão'], format='%d/%m/%Y')
-        df_usable_agosto['Dia do Mês'] = df_usable_agosto['Data de Emissão'].dt.day
+        df_usable_agosto['Data de Emissao'] = pd.to_datetime(df_usable_agosto['Data de Emissao'], format='%d/%m/%Y')
+        df_usable_agosto['Dia do Mês'] = df_usable_agosto['Data de Emissao'].dt.day
         count_by_day = df_usable_agosto.groupby('Dia do Mês')['ID Nota Fiscal'].count().reset_index()
         fig = px.line(count_by_day, x='Dia do Mês', y='ID Nota Fiscal', title='Quantidade de Notas Fiscais por Dia em Agosto',
                     labels={'ID Nota Fiscal': 'Quantidade de Notas Fiscais', 'Dia do Mês': 'Dia do Mês'},
@@ -346,8 +346,8 @@ if add_selectbox == 'Setembro':
         
 # =============================================================
 
-        df_usable_setembro['Data de Emissão'] = pd.to_datetime(df_usable_setembro['Data de Emissão'], format='%d/%m/%Y')
-        df_usable_setembro['Dia do Mês'] = df_usable_setembro['Data de Emissão'].dt.day
+        df_usable_setembro['Data de Emissao'] = pd.to_datetime(df_usable_setembro['Data de Emissao'], format='%d/%m/%Y')
+        df_usable_setembro['Dia do Mês'] = df_usable_setembro['Data de Emissao'].dt.day
         count_by_day = df_usable_setembro.groupby('Dia do Mês')['ID Nota Fiscal'].count().reset_index()
         fig = px.line(count_by_day, x='Dia do Mês', y='ID Nota Fiscal', title='Quantidade de Notas Fiscais por Dia em Setembro',
                     labels={'ID Nota Fiscal': 'Quantidade de Notas Fiscais', 'Dia do Mês': 'Dia do Mês'},
@@ -417,8 +417,8 @@ if add_selectbox == 'Outubro':
         
 # =============================================================
 
-        df_usable_outubro['Data de Emissão'] = pd.to_datetime(df_usable_outubro['Data de Emissão'], format='%d/%m/%Y')
-        df_usable_outubro['Dia do Mês'] = df_usable_outubro['Data de Emissão'].dt.day
+        df_usable_outubro['Data de Emissao'] = pd.to_datetime(df_usable_outubro['Data de Emissao'], format='%d/%m/%Y')
+        df_usable_outubro['Dia do Mês'] = df_usable_outubro['Data de Emissao'].dt.day
         count_by_day = df_usable_outubro.groupby('Dia do Mês')['ID Nota Fiscal'].count().reset_index()
         fig = px.line(count_by_day, x='Dia do Mês', y='ID Nota Fiscal', title='Quantidade de Notas Fiscais por Dia em Outubro',
                     labels={'ID Nota Fiscal': 'Quantidade de Notas Fiscais', 'Dia do Mês': 'Dia do Mês'},
@@ -488,8 +488,8 @@ if add_selectbox == 'Novembro':
         
 # =============================================================
 
-        df_usable_novembro['Data de Emissão'] = pd.to_datetime(df_usable_novembro['Data de Emissão'], format='%d/%m/%Y')
-        df_usable_novembro['Dia do Mês'] = df_usable_novembro['Data de Emissão'].dt.day
+        df_usable_novembro['Data de Emissao'] = pd.to_datetime(df_usable_novembro['Data de Emissao'], format='%d/%m/%Y')
+        df_usable_novembro['Dia do Mês'] = df_usable_novembro['Data de Emissao'].dt.day
         count_by_day = df_usable_novembro.groupby('Dia do Mês')['ID Nota Fiscal'].count().reset_index()
         fig = px.line(count_by_day, x='Dia do Mês', y='ID Nota Fiscal', title='Quantidade de Notas Fiscais por Dia em Outubro',
                     labels={'ID Nota Fiscal': 'Quantidade de Notas Fiscais', 'Dia do Mês': 'Dia do Mês'},
