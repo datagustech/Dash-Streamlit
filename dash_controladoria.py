@@ -100,7 +100,7 @@ if add_selectbox == 'Últimos 5 meses':
        
         df_receita = df_usable
 
-        df_receita = df_receita[df_receita['Tributável'] == 'S']
+        df_receita = df_receita[df_receita['Tributavel'] == 'S']
         fat_RECEITA = df_receita['Valor para Receita'].sum()
 
         # Formatação do valor usando a formatação de moeda
@@ -188,7 +188,7 @@ if add_selectbox == 'Julho':
 # ==============================================================   
 
     with st.container(border=True):    
-        df_receita_julho = df_usable_julho[df_usable_julho['Tributável'] == 'S']
+        df_receita_julho = df_usable_julho[df_usable_julho['Tributavel'] == 'S']
         fat_RECEITA_julho = df_receita_julho['Valor para Receita'].sum()
         # Formatação do valor usando a formatação de moeda
         receita_formatado_julho = "R${:,.2f}".format(fat_RECEITA_julho)
@@ -260,7 +260,7 @@ if add_selectbox == 'Agosto':
 # ==============================================================   
 
     with st.container(border=True):    
-        df_receita_agosto = df_usable_agosto[df_usable_agosto['Tributável'] == 'S']
+        df_receita_agosto = df_usable_agosto[df_usable_agosto['Tributavel'] == 'S']
         fat_RECEITA_agosto = df_receita_agosto['Valor para Receita'].sum()
         # Formatação do valor usando a formatação de moeda
         receita_formatado_agosto = "R${:,.2f}".format(fat_RECEITA_agosto)
@@ -332,7 +332,7 @@ if add_selectbox == 'Setembro':
 # ==============================================================   
 
     with st.container(border=True):    
-        df_receita_setembro = df_usable_setembro[df_usable_setembro['Tributável'] == 'S']
+        df_receita_setembro = df_usable_setembro[df_usable_setembro['Tributavel'] == 'S']
         fat_RECEITA_setembro = df_receita_setembro['Valor para Receita'].sum()
         # Formatação do valor usando a formatação de moeda
         receita_formatado_setembro = "R${:,.2f}".format(fat_RECEITA_setembro)
@@ -403,7 +403,7 @@ if add_selectbox == 'Outubro':
 # ==============================================================   
 
     with st.container(border=True):    
-        df_receita_outubro = df_usable_outubro[df_usable_outubro['Tributável'] == 'S']
+        df_receita_outubro = df_usable_outubro[df_usable_outubro['Tributavel'] == 'S']
         fat_RECEITA_outubro = df_receita_outubro['Valor para Receita'].sum()
         # Formatação do valor usando a formatação de moeda
         receita_formatado_outubro = "R${:,.2f}".format(fat_RECEITA_outubro)
@@ -474,7 +474,7 @@ if add_selectbox == 'Novembro':
 # ==============================================================   
 
     with st.container(border=True):    
-        df_receita_novembro = df_usable_novembro[df_usable_novembro['Tributável'] == 'S']
+        df_receita_novembro = df_usable_novembro[df_usable_novembro['Tributavel'] == 'S']
         fat_RECEITA_novembro = df_receita_novembro['Valor para Receita'].sum()
         # Formatação do valor usando a formatação de moeda
         receita_formatado_novembro = "R${:,.2f}".format(fat_RECEITA_novembro)
