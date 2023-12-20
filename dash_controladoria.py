@@ -5,12 +5,14 @@ import plotly.graph_objects as go
 import time
 import streamlit as st  
 
-df_importation = pd.read_csv('dados_notas.csv', sep=',', decimal=',', encoding='utf-8')
+
+df_importation = pd.read_csv('dados_notas.csv', sep=',', decimal=',')
 
 df_usable = df_importation
 
 situacao = ['Substituida', 'Cancelada', 'Canceladas']
 df_usable.drop(df_usable[df_usable['Situacao'].isin(situacao)].index, inplace=True)
+# Tratamento inicial
 if 'Situacao' in df_importation.columns:
     situacao = ['Substituida', 'Cancelada', 'Canceladas']
     df_importation.drop(df_importation[df_importation['Situacao'].isin(situacao)].index, inplace=True)
@@ -37,31 +39,15 @@ st.set_page_config(
     page_title="Dashboard Controladoria - Chappa",
     page_icon='logo_chappa.png',
     layout='wide',
-    initial_sidebar_state='expanded')
-
-
-st.markdown(
-    """
-        <style>
-            body {
-                color: white;
-                background-color: #1E1E1E;
-            }
-            .st-dg .st-cg .st-ch .st-ci .st-cj .st-cm .st-cn {
-                color: white;
-            }
-        </style>
-    """,
-    unsafe_allow_html=True
-)
-
+    initial_sidebar_state='expanded',
+    )
 
 with st.sidebar:
-    st.image('logo_chappa_maior.png', use_column_width='PNG')
+    st.image('logo_chapa_brasil.png')
     with st.spinner("Carregando..."):
         time.sleep(0.7)
         add_selectbox = st.selectbox("O quê desejas consultar?", 
-                     ("Últimos 5 meses", "Novembro", "Outubro", "Setembro", "Agosto", "Julho", "Crescimento Clientes"))
+                     ("Últimos 5 meses", "Novembro", "Outubro", "Setembro", "Agosto", "Julho", "Participação Clientes", "Crescimento Clientes", "Acompanhar Carteira de Clientes"))
         def abrir_radio():
             with st.sidebar:
                 add_radio = st.radio(
@@ -78,6 +64,18 @@ with st.sidebar:
                         'TRANSPORTES MARVEL S.A.',
                         'COOPERATIVA SANTA CLARA LTDA')
                     )
+            return add_radio
+        
+        def abrir_radio_meses():
+            with st.sidebar:
+                add_radio = st.radio(
+                    'Meses',
+                    ('Julho',
+                     'Agosto',
+                     'Setembro',
+                     'Outubro',
+                     'Novembro')
+                )
             return add_radio
         
 if st.header('Dashboard - Controladoria Fiscal'):
@@ -150,7 +148,8 @@ if add_selectbox == 'Últimos 5 meses':
               title='Comparação de Valores Totais das Notas por UF do Cliente',
               labels={'Valor da Nota': 'Valor Total', 'UF do Cliente': 'UF do Cliente'},
               category_orders={'UF do Cliente': soma_valores.sort_values('Valor da Nota', ascending=False)['UF do Cliente']},
-              template='plotly_dark')
+              template='plotly_dark',
+              color_discrete_sequence=px.colors.qualitative.T10)
 
         col51.plotly_chart(fig4, use_container_width=False)
         
@@ -224,7 +223,8 @@ if add_selectbox == 'Julho':
               title='Comparação de Valores Totais das Notas por UF do Cliente',
               labels={'Valor da Nota': 'Valor Total', 'UF do Cliente': 'UF do Cliente'},
               category_orders={'UF do Cliente': soma_valores_julho.sort_values('Valor da Nota', ascending=False)['UF do Cliente']},
-              template='plotly_dark')
+              template='plotly_dark',
+              color_discrete_sequence=px.colors.qualitative.T10)
         
         col5.plotly_chart(fig4, use_container_width=False)
 
@@ -296,7 +296,8 @@ if add_selectbox == 'Agosto':
               title='Comparação de Valores Totais das Notas por UF do Cliente',
               labels={'Valor da Nota': 'Valor Total', 'UF do Cliente': 'UF do Cliente'},
               category_orders={'UF do Cliente': soma_valores_agosto.sort_values('Valor da Nota', ascending=False)['UF do Cliente']},
-              template='plotly_dark')
+              template='plotly_dark',
+              color_discrete_sequence=px.colors.qualitative.T10)
 
         col5.plotly_chart(fig4, use_container_width=False)
 
@@ -368,7 +369,8 @@ if add_selectbox == 'Setembro':
               title='Comparação de Valores Totais das Notas por UF do Cliente',
               labels={'Valor da Nota': 'Valor Total', 'UF do Cliente': 'UF do Cliente'},
               category_orders={'UF do Cliente': soma_valores_setembro.sort_values('Valor da Nota', ascending=False)['UF do Cliente']},
-              template='plotly_dark')
+              template='plotly_dark',
+              color_discrete_sequence=px.colors.qualitative.T10)
 
         col5.plotly_chart(fig4, use_container_width=False)
 
@@ -439,7 +441,8 @@ if add_selectbox == 'Outubro':
               title='Comparação de Valores Totais das Notas por UF do Cliente',
               labels={'Valor da Nota': 'Valor Total', 'UF do Cliente': 'UF do Cliente'},
               category_orders={'UF do Cliente': soma_valores_outubro.sort_values('Valor da Nota', ascending=False)['UF do Cliente']},
-              template='plotly_dark')
+              template='plotly_dark',
+              color_discrete_sequence=px.colors.qualitative.T10)
 
         col5.plotly_chart(fig4, use_container_width=False)
 
@@ -510,13 +513,14 @@ if add_selectbox == 'Novembro':
               title='Comparação de Valores Totais das Notas por UF do Cliente',
               labels={'Valor da Nota': 'Valor Total', 'UF do Cliente': 'UF do Cliente'},
               category_orders={'UF do Cliente': soma_valores_novembro.sort_values('Valor da Nota', ascending=False)['UF do Cliente']},
-              template='plotly_dark')
+              template='plotly_dark',
+              color_discrete_sequence=px.colors.qualitative.T10)
 
         col5.plotly_chart(fig4, use_container_width=False)
 
 # ===========================================================
 
-        df_novembro = df_usable[df_usable['Mes_ano'] == '2023-10']
+        df_novembro = df_usable[df_usable['Mes_ano'] == '2023-11']
         df_sem_duplicatas_novembro = df_novembro.drop_duplicates(subset='ID Nota Fiscal', keep='first')
         faturamento_total_novembro = df_sem_duplicatas_novembro.groupby('Cliente')['Valor da Nota'].sum().reset_index()
         faturamento_total_novembro['Participacao'] = faturamento_total_novembro['Valor da Nota'] / faturamento_total_novembro['Valor da Nota'].sum() * 100
@@ -529,6 +533,84 @@ if add_selectbox == 'Novembro':
         fig5.update_traces(textposition='inside', textinfo='percent+label')
 
         col6.plotly_chart(fig5, use_container_width=False)
+
+if add_selectbox == 'Participação Clientes':
+    col1, col2, col3 = st.columns(3)
+    col4, col5 = st.columns(2)
+    # Julho
+    df_julho = df_usable[df_usable['Mes_ano'] == '2023-07']
+    df_sem_duplicatas_julho = df_julho.drop_duplicates(subset='ID Nota Fiscal', keep='first')
+    faturamento_total_julho = df_sem_duplicatas_julho.groupby('Cliente')['Valor da Nota'].sum().reset_index()
+    faturamento_total_julho['Participacao'] = faturamento_total_julho['Valor da Nota'] / faturamento_total_julho['Valor da Nota'].sum() * 100
+    fig1 = px.pie(faturamento_total_julho, names='Cliente', values='Valor da Nota', 
+                title='Participação dos Clientes no Faturamento Total (Julho)',
+                hover_name='Cliente', hover_data=['Valor da Nota'],
+                labels={'Valor da Nota': 'Faturamento'},
+                color_discrete_sequence=px.colors.qualitative.Set3,
+                hole=.5)
+    fig1.update_traces(textposition='inside', textinfo='percent+label')
+
+    col1.plotly_chart(fig1, use_container_width=False)
+    
+    # Agosto
+    df_agosto = df_usable[df_usable['Mes_ano'] == '2023-08']
+    df_sem_duplicatas_agosto = df_agosto.drop_duplicates(subset='ID Nota Fiscal', keep='first')
+    faturamento_total_agosto = df_sem_duplicatas_agosto.groupby('Cliente')['Valor da Nota'].sum().reset_index()
+    faturamento_total_agosto['Participacao'] = faturamento_total_agosto['Valor da Nota'] / faturamento_total_agosto['Valor da Nota'].sum() * 100
+    fig2 = px.pie(faturamento_total_agosto, names='Cliente', values='Valor da Nota', 
+                title='Participação dos Clientes no Faturamento Total (Agosto)',
+                hover_name='Cliente', hover_data=['Valor da Nota'],
+                labels={'Valor da Nota': 'Faturamento'},
+                color_discrete_sequence=px.colors.qualitative.Set3,
+                hole=.5)
+    fig2.update_traces(textposition='inside', textinfo='percent+label')
+
+    col2.plotly_chart(fig2, use_container_width=False)
+        
+    # Setembro
+    df_setembro = df_usable[df_usable['Mes_ano'] == '2023-09']
+    df_sem_duplicatas_setembro = df_setembro.drop_duplicates(subset='ID Nota Fiscal', keep='first')
+    faturamento_total_setembro = df_sem_duplicatas_setembro.groupby('Cliente')['Valor da Nota'].sum().reset_index()
+    faturamento_total_setembro['Participacao'] = faturamento_total_setembro['Valor da Nota'] / faturamento_total_setembro['Valor da Nota'].sum() * 100
+    fig3 = px.pie(faturamento_total_setembro, names='Cliente', values='Valor da Nota', 
+                title='Participação dos Clientes no Faturamento Total (Setembro)',
+                hover_name='Cliente', hover_data=['Valor da Nota'],
+                labels={'Valor da Nota': 'Faturamento'},
+                color_discrete_sequence=px.colors.qualitative.Set3,
+                hole=.5)
+    fig3.update_traces(textposition='inside', textinfo='percent+label')
+
+    col3.plotly_chart(fig3, use_container_width=False)
+    
+    # Outubro
+    df_outubro = df_usable[df_usable['Mes_ano'] == '2023-10']
+    df_sem_duplicatas_outubro = df_outubro.drop_duplicates(subset='ID Nota Fiscal', keep='first')
+    faturamento_total_outubro = df_sem_duplicatas_outubro.groupby('Cliente')['Valor da Nota'].sum().reset_index()
+    faturamento_total_outubro['Participacao'] = faturamento_total_outubro['Valor da Nota'] / faturamento_total_outubro['Valor da Nota'].sum() * 100
+    fig4 = px.pie(faturamento_total_outubro, names='Cliente', values='Valor da Nota', 
+                title='Participação dos Clientes no Faturamento Total (Outubro)',
+                hover_name='Cliente', hover_data=['Valor da Nota'],
+                labels={'Valor da Nota': 'Faturamento'},
+                color_discrete_sequence=px.colors.qualitative.Set3,
+                hole=.5)
+    fig4.update_traces(textposition='inside', textinfo='percent+label')
+
+    col4.plotly_chart(fig4, use_container_width=False)
+    
+    # Novembro
+    df_novembro = df_usable[df_usable['Mes_ano'] == '2023-11']
+    df_sem_duplicatas_novembro = df_novembro.drop_duplicates(subset='ID Nota Fiscal', keep='first')
+    faturamento_total_novembro = df_sem_duplicatas_novembro.groupby('Cliente')['Valor da Nota'].sum().reset_index()
+    faturamento_total_novembro['Participacao'] = faturamento_total_novembro['Valor da Nota'] / faturamento_total_novembro['Valor da Nota'].sum() * 100
+    fig5 = px.pie(faturamento_total_novembro, names='Cliente', values='Valor da Nota', 
+                title='Participação dos Clientes no Faturamento Total (Novembro)',
+                hover_name='Cliente', hover_data=['Valor da Nota'],
+                labels={'Valor da Nota': 'Faturamento'},
+                color_discrete_sequence=px.colors.qualitative.Set3,
+                hole=.5)
+    fig5.update_traces(textposition='inside', textinfo='percent+label')
+
+    col5.plotly_chart(fig5, use_container_width=False)
         
 if add_selectbox == 'Crescimento Clientes':
     selecionar = abrir_radio()
@@ -549,12 +631,12 @@ if add_selectbox == 'Crescimento Clientes':
         # Adicionar coluna com valores abreviados
         df_faturamento_mensal['Valor_abreviado'] = df_faturamento_mensal['Valor da Nota'].apply(abreviar_valor)
 
-        # Criar o gráfico de barras com valores abreviados
         fig = px.bar(df_faturamento_mensal, x='Mes_ano', y='Valor da Nota',
-                    text='Valor_abreviado',  # Utilizar os valores abreviados para o texto no gráfico
+                    text='Valor_abreviado',
                     title=f'Faturamento Mensal para o Cliente {cliente_selecionado}',
                     labels={'Valor da Nota': 'Faturamento', 'Mes_ano': 'Mês e Ano'},
-                    template='plotly_dark')
+                    template='plotly_dark',
+                    color_discrete_sequence=px.colors.qualitative.Set3)
 
         # Adicionar rótulos com os valores abreviados
         fig.update_traces(texttemplate='%{text}', textposition='outside')
@@ -565,7 +647,7 @@ if add_selectbox == 'Crescimento Clientes':
             y=df_faturamento_mensal['Valor da Nota'],
             mode='lines',
             line=dict(color='gray', width=3),
-            name='Linearidade'
+            name='Linha Tropica'
         )
 
         fig.add_trace(linha_tropica)
@@ -606,4 +688,265 @@ if add_selectbox == 'Crescimento Clientes':
         
     if selecionar == 'COOPERATIVA SANTA CLARA LTDA':
         criar_graph(selecionar)
+
+if add_selectbox == 'Acompanhar Carteira de Clientes':
+    selecionar = abrir_radio_meses()
+    col1, col2, col5 = st.columns(3)
+    col6, col7, col10 = st.columns(3)
+    col11, col12, col15 = st.columns(3)
+    col16, col17, col20 = st.columns(3)
+    col51, col52, col53, col54 = st.columns(4)
+    col21, col22, col23, col24 = st.columns(4)
+    col25, col26, col27, col28 = st.columns(4)    
+       
+    if selecionar == 'Julho':
+  
+        # =============================================   
+             
+        quant_clientes = df_usable['Cliente'].nunique()
+        col1.subheader(f"Número total de clientes até Novembro:")
+        col6.markdown(f'<p style="font-size:30px; text-align:center; margin-top:5px; font-family:sans-serif; font-weight:bold; border:8px solid #ccc; border-radius:5px; padding:40px;"> {quant_clientes}</p>', unsafe_allow_html=True)
+        
+        # =============================================  
+        
+        col51.divider()
+        col52.divider()
+        col53.divider()  
+        col54.divider()   
+        df_contagem_clientes = df_usable.groupby('Mes_ano')['Cliente'].nunique().reset_index()
+        df_contagem_clientes = df_contagem_clientes.sort_values('Mes_ano')
+        df_contagem_clientes['Mes_ano'] = pd.to_datetime(df_contagem_clientes['Mes_ano'].dt.to_timestamp())
+        col22.subheader("Clientes por Mês:")
+        fig = px.bar(df_contagem_clientes, x='Mes_ano', y='Cliente',
+                    labels={'Cliente': 'Quantidade de Clientes'},
+                    color_discrete_sequence=px.colors.qualitative.Set3,
+                    text='Cliente',  # Adicionando o texto acima de cada barra
+                    height=480)
+        fig.update_traces(texttemplate='%{text}', textposition='inside')
+        col26.plotly_chart(fig)
+
+        # ============================================
+        
+        df_usable_julho = df_usable[df_usable['Mes_ano'] == '2023-07']
+        quant_cliente_julho = df_usable_julho['Cliente'].nunique()
+        col5.subheader(f"Número de clientes em {selecionar}:")
+        col10.markdown(f'<p style="font-size:30px; text-align:center; margin-top:5px; font-family:sans-serif; font-weight:bold; border:8px solid #ccc; border-radius:5px; padding:40px;"> {quant_cliente_julho}</p>', unsafe_allow_html=True)
+        
+        # =============================================
+        
+        clientes_nao_retidos = df_usable_julho['Cliente']
+        col11.subheader(f"Clientes que estavam no mês anterior, mas não estão mais em {selecionar}:")
+        # col10.table(data=clientes_nao_retidos)     
+        col16.markdown(f'<p style="font-size:30px; text-align:center; margin-top:5px; font-family:sans-serif; font-weight:bold; border:8px solid #ccc; border-radius:5px; padding:40px;"> Sem dados</p>', unsafe_allow_html=True) 
+        
+        # =============================================
+        
+        col15.subheader(f"Porcentagem de Crescimento de Clientes em {selecionar}:")
+        col20.markdown(f'<p style="font-size:30px; text-align:center; margin-top:5px; font-family:sans-serif; font-weight:bold; border:8px solid #ccc; border-radius:5px; padding:40px;"> Sem dados</p>', unsafe_allow_html=True)
+        
+    if selecionar == 'Agosto':
+  
+        # =============================================   
+             
+        quant_clientes = df_usable['Cliente'].nunique()
+        col1.subheader(f"Número total de clientes até Novembro:")
+        col6.markdown(f'<p style="font-size:30px; text-align:center; margin-top:5px; font-family:sans-serif; font-weight:bold; border:8px solid #ccc; border-radius:5px; padding:40px;"> {quant_clientes}</p>', unsafe_allow_html=True)
+        
+        # =============================================  
+        
+        col51.divider()
+        col52.divider()
+        col53.divider()  
+        col54.divider()   
+        df_contagem_clientes = df_usable.groupby('Mes_ano')['Cliente'].nunique().reset_index()
+        df_contagem_clientes = df_contagem_clientes.sort_values('Mes_ano')
+        df_contagem_clientes['Mes_ano'] = pd.to_datetime(df_contagem_clientes['Mes_ano'].dt.to_timestamp())
+        col22.subheader("Clientes por Mês:")
+        fig = px.bar(df_contagem_clientes, x='Mes_ano', y='Cliente',
+                    labels={'Cliente': 'Quantidade de Clientes'},
+                    color_discrete_sequence=px.colors.qualitative.Set3,
+                    text='Cliente',  # Adicionando o texto acima de cada barra
+                    height=480)
+        fig.update_traces(texttemplate='%{text}', textposition='inside')
+        col26.plotly_chart(fig)
+
+
+        # ============================================
+        
+        df_usable_agosto = df_usable[df_usable['Mes_ano'] == '2023-08']
+        df_usable_agosto = df_usable_agosto['Cliente'].nunique()
+        col5.subheader(f"Número de clientes em {selecionar}:")
+        col10.markdown(f'<p style="font-size:30px; text-align:center; margin-top:5px; font-family:sans-serif; font-weight:bold; border:8px solid #ccc; border-radius:5px; padding:40px;"> {df_usable_agosto}</p>', unsafe_allow_html=True)
+        
+        # =============================================
+        
+        df_usable_julho = df_usable[df_usable['Mes_ano'] == '2023-07']
+        df_usable_agosto = df_usable[df_usable['Mes_ano'] == '2023-08']
+        clientes_nao_retidos = df_usable_julho[~df_usable_julho['Cliente'].isin(df_usable_agosto['Cliente'])]
+        clientes_nao_retidos = clientes_nao_retidos[['Cliente']].drop_duplicates()   
+        col11.subheader(f"Clientes que estavam no mês anterior, mas não estão mais em {selecionar}:")
+        col16.table(data=clientes_nao_retidos)     
+        
+        # =============================================
+        
+        df_usable_agosto = df_usable[df_usable['Mes_ano'] == '2023-08']
+        quant_cliente_agosto = df_usable_agosto['Cliente'].nunique()
+        quant_clientes_julho = df_usable_julho['Cliente'].nunique()
+        porcentagem = ((quant_cliente_agosto - quant_clientes_julho) / quant_clientes_julho) * 100
+        col15.subheader(f"Porcentagem de Crescimento de Clientes em {selecionar}:")
+        col20.markdown(f'<p style="font-size:30px; text-align:center; margin-top:5px; font-family:sans-serif; font-weight:bold; border:8px solid #ccc; border-radius:5px; padding:40px;">{porcentagem:,.2f}%</p>', unsafe_allow_html=True)
+        
+        
+    if selecionar == 'Setembro':
+  
+        # =============================================   
+             
+        quant_clientes = df_usable['Cliente'].nunique()
+        col1.subheader(f"Número total de clientes até Novembro:")
+        col6.markdown(f'<p style="font-size:30px; text-align:center; margin-top:5px; font-family:sans-serif; font-weight:bold; border:8px solid #ccc; border-radius:5px; padding:40px;"> {quant_clientes}</p>', unsafe_allow_html=True)
+        
+        # =============================================  
+        
+        col51.divider()
+        col52.divider()
+        col53.divider()  
+        col54.divider()   
+        df_contagem_clientes = df_usable.groupby('Mes_ano')['Cliente'].nunique().reset_index()
+        df_contagem_clientes = df_contagem_clientes.sort_values('Mes_ano')
+        df_contagem_clientes['Mes_ano'] = pd.to_datetime(df_contagem_clientes['Mes_ano'].dt.to_timestamp())
+        col22.subheader("Clientes por Mês:")
+        fig = px.bar(df_contagem_clientes, x='Mes_ano', y='Cliente',
+                    labels={'Cliente': 'Quantidade de Clientes'},
+                    color_discrete_sequence=px.colors.qualitative.Set3,
+                    text='Cliente',  # Adicionando o texto acima de cada barra
+                    height=480)
+        fig.update_traces(texttemplate='%{text}', textposition='inside')
+        col26.plotly_chart(fig)
+
+        # ============================================
+        
+        df_usable_setembro = df_usable[df_usable['Mes_ano'] == '2023-09']
+        df_usable_setembro = df_usable_setembro['Cliente'].nunique()
+        col5.subheader(f"Número de clientes em {selecionar}:")
+        col10.markdown(f'<p style="font-size:30px; text-align:center; margin-top:5px; font-family:sans-serif; font-weight:bold; border:8px solid #ccc; border-radius:5px; padding:40px;"> {df_usable_setembro}</p>', unsafe_allow_html=True)
+        
+        # =============================================
+        
+        df_usable_agosto = df_usable[df_usable['Mes_ano'] == '2023-08']
+        df_usable_setembro = df_usable[df_usable['Mes_ano'] == '2023-09']
+        clientes_nao_retidos = df_usable_agosto[~df_usable_agosto['Cliente'].isin(df_usable_setembro['Cliente'])]
+        clientes_nao_retidos = clientes_nao_retidos[['Cliente']].drop_duplicates()   
+        col11.subheader(f"Clientes que estavam no mês anterior, mas não estão mais em {selecionar}:")
+        col16.table(data=clientes_nao_retidos)     
+        
+        # =============================================
+        
+        df_usable_setembro = df_usable[df_usable['Mes_ano'] == '2023-09']
+        quant_cliente_setembro = df_usable_setembro['Cliente'].nunique()
+        quant_clientes_agosto = df_usable_agosto['Cliente'].nunique()
+        porcentagem = ((quant_cliente_setembro - quant_clientes_agosto) / quant_clientes_agosto) * 100
+        col15.subheader(f"Porcentagem de Crescimento de Clientes em {selecionar}:")
+        col20.markdown(f'<p style="font-size:30px; text-align:center; margin-top:5px; font-family:sans-serif; font-weight:bold; border:8px solid #ccc; border-radius:5px; padding:40px;">{porcentagem:,.2f}%</p>', unsafe_allow_html=True)
+  
     
+    if selecionar == 'Outubro':
+  
+        # =============================================   
+             
+        quant_clientes = df_usable['Cliente'].nunique()
+        col1.subheader(f"Número total de clientes até Novembro:")
+        col6.markdown(f'<p style="font-size:30px; text-align:center; margin-top:5px; font-family:sans-serif; font-weight:bold; border:8px solid #ccc; border-radius:5px; padding:40px;"> {quant_clientes}</p>', unsafe_allow_html=True)
+        
+        # =============================================  
+        
+        col51.divider()
+        col52.divider()
+        col53.divider()  
+        col54.divider()   
+        df_contagem_clientes = df_usable.groupby('Mes_ano')['Cliente'].nunique().reset_index()
+        df_contagem_clientes = df_contagem_clientes.sort_values('Mes_ano')
+        df_contagem_clientes['Mes_ano'] = pd.to_datetime(df_contagem_clientes['Mes_ano'].dt.to_timestamp())
+        col22.subheader("Clientes por Mês:")
+        fig = px.bar(df_contagem_clientes, x='Mes_ano', y='Cliente',
+                    labels={'Cliente': 'Quantidade de Clientes'},
+                    color_discrete_sequence=px.colors.qualitative.Set3,
+                    text='Cliente',  # Adicionando o texto acima de cada barra
+                    height=480)
+        fig.update_traces(texttemplate='%{text}', textposition='inside')
+        col26.plotly_chart(fig)
+
+        # ============================================
+        
+        df_usable_outubro = df_usable[df_usable['Mes_ano'] == '2023-11']
+        df_usable_outubro = df_usable_outubro['Cliente'].nunique()
+        col5.subheader(f"Número de clientes em {selecionar}:")
+        col10.markdown(f'<p style="font-size:30px; text-align:center; margin-top:5px; font-family:sans-serif; font-weight:bold; border:8px solid #ccc; border-radius:5px; padding:40px;"> {df_usable_outubro}</p>', unsafe_allow_html=True)
+        
+        # =============================================
+        
+        df_usable_setembro = df_usable[df_usable['Mes_ano'] == '2023-09']
+        df_usable_outubro = df_usable[df_usable['Mes_ano'] == '2023-10']
+        clientes_nao_retidos = df_usable_setembro[~df_usable_setembro['Cliente'].isin(df_usable_outubro['Cliente'])]
+        clientes_nao_retidos = clientes_nao_retidos[['Cliente']].drop_duplicates()   
+        col11.subheader(f"Clientes que estavam no mês anterior, mas não estão mais em {selecionar}:")
+        col16.table(data=clientes_nao_retidos)     
+        
+        # =============================================
+        
+        df_usable_outubro = df_usable[df_usable['Mes_ano'] == '2023-10']
+        quant_cliente_outubro = df_usable_outubro['Cliente'].nunique()
+        quant_clientes_setembro = df_usable_setembro['Cliente'].nunique()
+        porcentagem = ((quant_cliente_outubro - quant_clientes_setembro) / quant_clientes_setembro) * 100
+        col15.subheader(f"Porcentagem de Crescimento de Clientes em {selecionar}:")
+        col20.markdown(f'<p style="font-size:30px; text-align:center; margin-top:5px; font-family:sans-serif; font-weight:bold; border:8px solid #ccc; border-radius:5px; padding:40px;">{porcentagem:,.2f}%</p>', unsafe_allow_html=True)
+        
+    if selecionar == 'Novembro':
+  
+        # =============================================   
+             
+        quant_clientes = df_usable['Cliente'].nunique()
+        col1.subheader(f"Número total de clientes até Novembro:")
+        col6.markdown(f'<p style="font-size:30px; text-align:center; margin-top:5px; font-family:sans-serif; font-weight:bold; border:8px solid #ccc; border-radius:5px; padding:40px;"> {quant_clientes}</p>', unsafe_allow_html=True)
+        
+        # =============================================  
+        
+        col51.divider()
+        col52.divider()
+        col53.divider()  
+        col54.divider()   
+        df_contagem_clientes = df_usable.groupby('Mes_ano')['Cliente'].nunique().reset_index()
+        df_contagem_clientes = df_contagem_clientes.sort_values('Mes_ano')
+        df_contagem_clientes['Mes_ano'] = pd.to_datetime(df_contagem_clientes['Mes_ano'].dt.to_timestamp())
+        col22.subheader("Clientes por Mês:")
+        fig = px.bar(df_contagem_clientes, x='Mes_ano', y='Cliente',
+                    labels={'Cliente': 'Quantidade de Clientes'},
+                    color_discrete_sequence=px.colors.qualitative.Set3,
+                    text='Cliente',  # Adicionando o texto acima de cada barra
+                    height=480)
+        fig.update_traces(texttemplate='%{text}', textposition='inside')
+        col26.plotly_chart(fig)
+
+        # ============================================
+        
+        df_usable_novembro = df_usable[df_usable['Mes_ano'] == '2023-11']
+        df_usable_novembro = df_usable_novembro['Cliente'].nunique()
+        col5.subheader(f"Número de clientes em {selecionar}:")
+        col10.markdown(f'<p style="font-size:30px; text-align:center; margin-top:5px; font-family:sans-serif; font-weight:bold; border:8px solid #ccc; border-radius:5px; padding:40px;"> {df_usable_novembro}</p>', unsafe_allow_html=True)
+        
+        # =============================================
+        
+        df_usable_novembro = df_usable[df_usable['Mes_ano'] == '2023-11']
+        df_usable_outubro = df_usable[df_usable['Mes_ano'] == '2023-10']
+        clientes_nao_retidos = df_usable_outubro[~df_usable_outubro['Cliente'].isin(df_usable_novembro['Cliente'])]
+        clientes_nao_retidos = clientes_nao_retidos[['Cliente']].drop_duplicates()   
+        col11.subheader(f"Clientes que estavam no mês anterior, mas não estão mais em {selecionar}:")
+        col16.table(data=clientes_nao_retidos)     
+        
+        # =============================================
+        
+        df_usable_novembro = df_usable[df_usable['Mes_ano'] == '2023-11']
+        quant_cliente_novembro = df_usable_novembro['Cliente'].nunique()
+        quant_clientes_outubro = df_usable_outubro['Cliente'].nunique()
+        porcentagem = ((quant_cliente_novembro - quant_clientes_outubro) / quant_clientes_outubro) * 100
+        col15.subheader(f"Porcentagem de Crescimento de Clientes em {selecionar}:")
+        col20.markdown(f'<p style="font-size:30px; text-align:center; margin-top:5px; font-family:sans-serif; font-weight:bold; border:8px solid #ccc; border-radius:5px; padding:40px;">{porcentagem:,.2f}%</p>', unsafe_allow_html=True)
