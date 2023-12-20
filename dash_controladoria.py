@@ -718,7 +718,7 @@ if add_selectbox == 'Acompanhar Carteira de Clientes':
         df_contagem_clientes['Mes_ano'] = pd.to_datetime(df_contagem_clientes['Mes_ano'].dt.to_timestamp())
         col22.subheader("Clientes por Mês:")
         fig = px.bar(df_contagem_clientes, x='Mes_ano', y='Cliente',
-                    labels={'Cliente': 'Quantidade de Clientes'},
+                    labels={'Cliente': 'Quantidade de Clientes', 'Mes_ano' : 'Mês e Ano'},
                     color_discrete_sequence=px.colors.qualitative.Set3,
                     text='Cliente',  # Adicionando o texto acima de cada barra
                     height=480)
@@ -763,7 +763,7 @@ if add_selectbox == 'Acompanhar Carteira de Clientes':
         df_contagem_clientes['Mes_ano'] = pd.to_datetime(df_contagem_clientes['Mes_ano'].dt.to_timestamp())
         col22.subheader("Clientes por Mês:")
         fig = px.bar(df_contagem_clientes, x='Mes_ano', y='Cliente',
-                    labels={'Cliente': 'Quantidade de Clientes'},
+                    labels={'Cliente': 'Quantidade de Clientes', 'Mes_ano' : 'Mês e Ano'},
                     color_discrete_sequence=px.colors.qualitative.Set3,
                     text='Cliente',  # Adicionando o texto acima de cada barra
                     height=480)
@@ -816,7 +816,7 @@ if add_selectbox == 'Acompanhar Carteira de Clientes':
         df_contagem_clientes['Mes_ano'] = pd.to_datetime(df_contagem_clientes['Mes_ano'].dt.to_timestamp())
         col22.subheader("Clientes por Mês:")
         fig = px.bar(df_contagem_clientes, x='Mes_ano', y='Cliente',
-                    labels={'Cliente': 'Quantidade de Clientes'},
+                    labels={'Cliente': 'Quantidade de Clientes', 'Mes_ano' : 'Mês e Ano'},
                     color_discrete_sequence=px.colors.qualitative.Set3,
                     text='Cliente',  # Adicionando o texto acima de cada barra
                     height=480)
@@ -868,7 +868,7 @@ if add_selectbox == 'Acompanhar Carteira de Clientes':
         df_contagem_clientes['Mes_ano'] = pd.to_datetime(df_contagem_clientes['Mes_ano'].dt.to_timestamp())
         col22.subheader("Clientes por Mês:")
         fig = px.bar(df_contagem_clientes, x='Mes_ano', y='Cliente',
-                    labels={'Cliente': 'Quantidade de Clientes'},
+                    labels={'Cliente': 'Quantidade de Clientes', 'Mes_ano' : 'Mês e Ano'},
                     color_discrete_sequence=px.colors.qualitative.Set3,
                     text='Cliente',  # Adicionando o texto acima de cada barra
                     height=480)
@@ -919,7 +919,7 @@ if add_selectbox == 'Acompanhar Carteira de Clientes':
         df_contagem_clientes['Mes_ano'] = pd.to_datetime(df_contagem_clientes['Mes_ano'].dt.to_timestamp())
         col22.subheader("Clientes por Mês:")
         fig = px.bar(df_contagem_clientes, x='Mes_ano', y='Cliente',
-                    labels={'Cliente': 'Quantidade de Clientes'},
+                    labels={'Cliente': 'Quantidade de Clientes', 'Mes_ano' : 'Mês e Ano'},
                     color_discrete_sequence=px.colors.qualitative.Set3,
                     text='Cliente',  # Adicionando o texto acima de cada barra
                     height=480)
